@@ -3,23 +3,34 @@
 import Section from "./Section";
 import { FaPaperPlane, FaEnvelope, FaMapMarkerAlt, FaWhatsapp, FaGithub, FaLinkedin, FaTwitter, FaChevronDown } from "react-icons/fa";
 import { useState } from "react";
+import { sendEmail } from "@/app/actions/contact";
 
 export default function Contact() {
     const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+    const [errorMessage, setErrorMessage] = useState('');
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setStatus('sending');
-        // Simulate API call
-        setTimeout(() => {
+        setErrorMessage('');
+
+        const formData = new FormData(e.currentTarget);
+        const result = await sendEmail(formData);
+
+        if (result.success) {
             setStatus('success');
-            // Reset after 3 seconds
+            e.currentTarget.reset();
             setTimeout(() => setStatus('idle'), 3000);
-        }, 1500);
+        } else {
+            setStatus('error');
+            setErrorMessage(result.error || 'Something went wrong');
+            setTimeout(() => setStatus('idle'), 5000);
+        }
     };
 
     return (
         <Section id="contact" className="bg-slate-900/50">
+            {/* ... title section ... */}
             <div className="flex flex-col items-center justify-center text-center mb-16 space-y-4">
                 <span className="inline-block py-1.5 px-4 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-widest border border-primary/20">
                     Get in Touch
@@ -102,18 +113,18 @@ export default function Contact() {
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                             <div className="space-y-2">
                                 <label className="text-sm font-bold text-slate-300 ml-1">Name</label>
-                                <input type="text" className="w-full bg-slate-950/50 border border-slate-800 rounded-xl px-4 py-4 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/50 transition-all placeholder:text-slate-600" placeholder="aadan said" required />
+                                <input name="name" type="text" className="w-full bg-slate-950/50 border border-slate-800 rounded-xl px-4 py-4 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/50 transition-all placeholder:text-slate-600" placeholder="aadan said" required />
                             </div>
                             <div className="space-y-2">
                                 <label className="text-sm font-bold text-slate-300 ml-1">Email</label>
-                                <input type="email" className="w-full bg-slate-950/50 border border-slate-800 rounded-xl px-4 py-4 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/50 transition-all placeholder:text-slate-600" placeholder="aadan@gmail.com" required />
+                                <input name="email" type="email" className="w-full bg-slate-950/50 border border-slate-800 rounded-xl px-4 py-4 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/50 transition-all placeholder:text-slate-600" placeholder="aadan@gmail.com" required />
                             </div>
                         </div>
 
                         <div className="space-y-2 relative">
                             <label className="text-sm font-bold text-slate-300 ml-1">Subject</label>
                             <div className="relative">
-                                <select defaultValue="" className="w-full appearance-none bg-slate-950/50 border border-slate-800 rounded-xl px-4 py-4 text-slate-300 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/50 transition-all cursor-pointer peer">
+                                <select name="subject" defaultValue="" className="w-full appearance-none bg-slate-950/50 border border-slate-800 rounded-xl px-4 py-4 text-slate-300 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/50 transition-all cursor-pointer peer">
                                     <option className="bg-slate-900 text-slate-300" value="" disabled>Select a subject</option>
                                     <option className="bg-slate-900 text-slate-300">General Inquiry</option>
                                     <option className="bg-slate-900 text-slate-300">Project Proposal</option>
@@ -128,25 +139,31 @@ export default function Contact() {
 
                         <div className="space-y-2">
                             <label className="text-sm font-bold text-slate-300 ml-1">Message</label>
-                            <textarea rows={5} className="w-full bg-slate-950/50 border border-slate-800 rounded-xl px-4 py-4 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/50 transition-all resize-none placeholder:text-slate-600" placeholder="Tell me about your project..." required></textarea>
+                            <textarea name="message" rows={5} className="w-full bg-slate-950/50 border border-slate-800 rounded-xl px-4 py-4 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/50 transition-all resize-none placeholder:text-slate-600" placeholder="Tell me about your project..." required></textarea>
                         </div>
+
+                        {status === 'error' && (
+                            <p className="text-red-500 text-sm font-medium animate-pulse">{errorMessage}</p>
+                        )}
 
                         <button
                             type="submit"
-                            disabled={status !== 'idle'}
+                            disabled={status === 'sending'}
                             className={`w-full py-5 rounded-xl font-bold text-lg transition-all flex items-center justify-center gap-3 shadow-lg hover:shadow-primary/25 hover:-translate-y-1 ${status === 'success'
                                 ? 'bg-green-500 text-white'
-                                : 'bg-linear-to-r from-primary to-blue-600 text-white hover:opacity-90'
+                                : status === 'error' ? 'bg-red-500 text-white' : 'bg-linear-to-r from-primary to-blue-600 text-white hover:opacity-90'
                                 }`}
                         >
                             {status === 'idle' && <><FaPaperPlane /> Send Message</>}
                             {status === 'sending' && <div className="animate-spin w-5 h-5 border-2 border-white/30 border-t-white rounded-full"></div>}
                             {status === 'success' && 'Message Sent Successfully!'}
+                            {status === 'error' && 'Failed to Send'}
                         </button>
                     </form>
                 </div>
 
             </div>
         </Section>
+
     );
 }
