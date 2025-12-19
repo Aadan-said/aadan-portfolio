@@ -2,32 +2,7 @@ import Section from "../../components/Section";
 import Link from "next/link";
 import { FaArrowLeft } from "react-icons/fa";
 
-const articles = [
-    {
-        slug: "what-is-oop",
-        title: "What is OOP in Simple Words",
-        excerpt: "Object-Oriented Programming explained with real-world analogies like cars and blueprints.",
-        date: "Dec 15, 2024",
-        readTime: "5 min read",
-        category: "Concepts"
-    },
-    {
-        slug: "django-auth-system",
-        title: "How I Built a Django Auth System",
-        excerpt: "A step-by-step guide to implementing secure user authentication with Django and JWT.",
-        date: "Nov 28, 2024",
-        readTime: "8 min read",
-        category: "Backend"
-    },
-    {
-        slug: "nextjs-app-router",
-        title: "Next.js App Router Explained",
-        excerpt: "Understanding the difference between the Pages router and the new App router in Next.js 13+.",
-        date: "Oct 10, 2024",
-        readTime: "6 min read",
-        category: "Frontend"
-    }
-];
+import { articles } from "../../data/articles";
 
 export default function BlogIndex() {
     return (

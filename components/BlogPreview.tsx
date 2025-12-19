@@ -2,35 +2,7 @@ import Section from "./Section";
 import Link from "next/link";
 import { FaArrowRight, FaCalendarAlt, FaClock } from "react-icons/fa";
 
-const articles = [
-    {
-        slug: "what-is-oop",
-        title: "Object Oriented Programming (OOP) Simplified",
-        excerpt: "A deep dive into OOP concepts using real-world analogies like cars and blueprints to make it efficient.",
-        date: "Dec 15, 2024",
-        readTime: "5 min read",
-        category: "Concepts",
-        categoryColor: "text-pink-400 bg-pink-400/10 border-pink-400/20"
-    },
-    {
-        slug: "django-auth-system",
-        title: "Building a Secure Auth System with Django",
-        excerpt: "Step-by-step guide to implementing secure user authentication, JWT tokens, and permission classes.",
-        date: "Nov 28, 2024",
-        readTime: "8 min read",
-        category: "Backend",
-        categoryColor: "text-green-400 bg-green-400/10 border-green-400/20"
-    },
-    {
-        slug: "nextjs-app-router",
-        title: "Mastering the Next.js App Router",
-        excerpt: "Understanding server components, layouts, and the new data fetching paradigms in Next.js 13+.",
-        date: "Oct 10, 2024",
-        readTime: "6 min read",
-        category: "Frontend",
-        categoryColor: "text-blue-400 bg-blue-400/10 border-blue-400/20"
-    }
-];
+import { articles } from "../data/articles";
 
 export default function BlogPreview() {
     return (

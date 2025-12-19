@@ -2,9 +2,13 @@
 
 import { Resend } from 'resend';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 export async function sendEmail(formData: FormData) {
+    if (!process.env.RESEND_API_KEY) {
+        console.error('RESEND_API_KEY is missing from environment variables');
+        return { error: 'Email service is not configured. Please add RESEND_API_KEY.' };
+    }
+
+    const resend = new Resend(process.env.RESEND_API_KEY);
     const name = formData.get('name') as string;
     const email = formData.get('email') as string;
     const subjectLine = formData.get('subject') as string;
