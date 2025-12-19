@@ -11,15 +11,16 @@ export default function Contact() {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        const form = e.currentTarget;
         setStatus('sending');
         setErrorMessage('');
 
-        const formData = new FormData(e.currentTarget);
+        const formData = new FormData(form);
         const result = await sendEmail(formData);
 
         if (result.success) {
             setStatus('success');
-            e.currentTarget.reset();
+            form.reset();
             setTimeout(() => setStatus('idle'), 3000);
         } else {
             setStatus('error');

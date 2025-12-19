@@ -4,7 +4,18 @@ import { Resend } from 'resend';
 
 export async function sendEmail(formData: FormData) {
     if (!process.env.RESEND_API_KEY) {
-        console.error('RESEND_API_KEY is missing from environment variables');
+        console.warn('RESEND_API_KEY is missing.');
+
+        // Demo mode for local development
+        if (process.env.NODE_ENV === 'development') {
+            console.log('--- EMAIL DEMO MODE ---');
+            console.log('From:', formData.get('email'));
+            console.log('Subject:', formData.get('subject'));
+            console.log('Message:', formData.get('message'));
+            console.log('-----------------------');
+            return { success: true, demo: true };
+        }
+
         return { error: 'Message service is temporarily unavailable. Please try again later or contact me directly via email.' };
     }
 
