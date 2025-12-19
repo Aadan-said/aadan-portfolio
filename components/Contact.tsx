@@ -51,6 +51,17 @@ export default function Contact() {
                         </div>
 
                         <div className="flex items-start gap-6 p-6 rounded-2xl bg-slate-900/50 border border-slate-800 hover:border-primary/30 transition-all hover:-translate-y-1 hover:shadow-lg group">
+                            <div className="w-14 h-14 rounded-2xl bg-purple-500/10 flex items-center justify-center text-purple-400 text-2xl group-hover:bg-purple-500 group-hover:text-white transition-all duration-300">
+                                <FaWhatsapp />
+                            </div>
+                            <div>
+                                <h3 className="text-xl font-bold text-white mb-1">Call Me</h3>
+                                <p className="text-slate-400 text-sm mb-2">Available for calls and direct messages.</p>
+                                <a href="tel:+2520906575473" className="text-purple-400 font-bold hover:text-purple-300 transition-colors">+252 090 657 5473</a>
+                            </div>
+                        </div>
+
+                        <div className="flex items-start gap-6 p-6 rounded-2xl bg-slate-900/50 border border-slate-800 hover:border-primary/30 transition-all hover:-translate-y-1 hover:shadow-lg group">
                             <div className="w-14 h-14 rounded-2xl bg-green-500/10 flex items-center justify-center text-green-400 text-2xl group-hover:bg-green-500 group-hover:text-white transition-all duration-300">
                                 <FaMapMarkerAlt />
                             </div>
@@ -58,7 +69,6 @@ export default function Contact() {
                                 <h3 className="text-xl font-bold text-white mb-1">Location</h3>
                                 <p className="text-slate-400 text-sm mb-2">Based in the heart of innovation.</p>
                                 <span className="text-green-400 font-bold">Galkio, Somalia</span>
-
                             </div>
                         </div>
                     </div>
